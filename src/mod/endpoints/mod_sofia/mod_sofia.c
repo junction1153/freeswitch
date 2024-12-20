@@ -254,7 +254,7 @@ char *generate_pai_str(private_object_t *tech_pvt)
 	callee_number = switch_sanitize_number(switch_core_session_strdup(session, callee_number));
 	callee_name = switch_sanitize_number(switch_core_session_strdup(session, callee_name));
 
-	if (!zstr(callee_number) && (zstr(ua) || !switch_stristr("polycom", ua))) {
+	if (!zstr(callee_number) && (zstr(ua) || !switch_stristr("poly", ua))) {
 		callee_number = switch_core_session_sprintf(session, "sip:%s@%s", callee_number, host);
 	}
 
@@ -2152,7 +2152,7 @@ static switch_status_t sofia_receive_message(switch_core_session_t *session, swi
 								 SIPTAG_PAYLOAD_STR(message),
 								 TAG_IF(!zstr(session_id_header), SIPTAG_HEADER_STR(session_id_header)),
 								 TAG_END());
-					} else if (ua && switch_stristr("polycom", ua)) {
+					} else if (ua && switch_stristr("poly", ua)) {
 						snprintf(message, sizeof(message), "P-Asserted-Identity: \"%s\" <%s>", msg->string_arg, tech_pvt->caller_profile->destination_number);
 						nua_update(tech_pvt->nh,
 								   NUTAG_SESSION_TIMER(tech_pvt->session_timeout),
