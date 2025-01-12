@@ -33,8 +33,7 @@ The main index for documentation is available at:
 
 Step by step tutorials to install FreeSWITCH from packages:
 
-  * [Using FSGET](/scripts/packaging) [<b>Recommended</b>]
-  * [Debian](https://freeswitch.org/confluence/display/FREESWITCH/Debian)
+  * [Debian](https://freeswitch.org/confluence/display/FREESWITCH/Debian) [<b>Recommended</b>]
   * [Raspberry Pi](https://freeswitch.org/confluence/display/FREESWITCH/Raspberry+Pi)
   * [CentOS 7](https://freeswitch.org/confluence/display/FREESWITCH/CentOS+7+and+RHEL+7)
 

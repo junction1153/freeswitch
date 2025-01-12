@@ -606,6 +606,10 @@ switch_status_t database_handle_exec_string(switch_database_interface_handle_t *
 		case PGRES_SINGLE_TUPLE:
 			/* Added in PostgreSQL 9.2 */
 #endif
+#if PG_VERSION_NUM >= 160001
+                case PGRES_TUPLES_CHUNK:
+			/* Added in PostgreSQL 16 */
+#endif
 		case PGRES_COMMAND_OK:
 		case PGRES_TUPLES_OK:
 			break;
@@ -776,6 +780,10 @@ switch_status_t pgsql_next_result_timed(switch_pgsql_handle_t *handle, switch_pg
 #if PG_VERSION_NUM >= 90001
 		case PGRES_COPY_BOTH:
 			/* Added in PostgreSQL 9.1 */
+#endif
+#if PG_VERSION_NUM >= 160001
+                case PGRES_TUPLES_CHUNK:
+			/* Added in PostgreSQL 16 */
 #endif
 		case PGRES_COPY_OUT:
 		case PGRES_COPY_IN:

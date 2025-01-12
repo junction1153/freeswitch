@@ -33,20 +33,28 @@ supported_debian_distros="wheezy jessie stretch buster bullseye bookworm sid"
 supported_ubuntu_distros="trusty utopic xenial"
 supported_distros="$supported_debian_distros $supported_ubuntu_distros"
 avoid_mods=(
+  applications/mod_sms_flowroute
   applications/mod_limit
   applications/mod_mongo
+  applications/mod_mp4
+  applications/mod_mp4v2
   applications/mod_osp
   applications/mod_rad_auth
   applications/mod_skel
   applications/mod_cluechoo
+  asr_tts/mod_cepstral
   codecs/mod_com_g729
   codecs/mod_openh264
   codecs/mod_siren
+  codecs/mod_sangoma_codec
   codecs/mod_skel_codec
+  endpoints/mod_gsmopen
   endpoints/mod_h323
   endpoints/mod_khomp
   endpoints/mod_opal
   endpoints/mod_reference
+  endpoints/mod_skypopen
+  endpoints/mod_unicall
   event_handlers/mod_smpp
   event_handlers/mod_event_zmq
   formats/mod_webm
@@ -77,18 +85,23 @@ avoid_mods_wheezy=(
   applications/mod_cv
   applications/mod_hiredis
   formats/mod_shout
+  applications/mod_sonar
+  applications/mod_soundtouch
   formats/mod_vlc
 )
 avoid_mods_trusty=(
   event_handlers/mod_amqp
+  loggers/mod_raven
 )
 avoid_mods_utopic=(
   directories/mod_ldap
+  loggers/mod_raven
 )
 avoid_mods_xenial=(
   event_handlers/mod_ldap
   event_handlers/mod_amqp
   asr_tts/mod_flite
+  loggers/mod_raven
 )
 manual_pkgs=(
 freeswitch-all
@@ -510,6 +523,7 @@ Recommends:
  freeswitch-meta-codecs (= \${binary:Version}),
  freeswitch-music,
  freeswitch-sounds,
+ freeswitch-mod-abstraction (= \${binary:Version}),
  freeswitch-mod-avmd (= \${binary:Version}),
  freeswitch-mod-blacklist (= \${binary:Version}),
  freeswitch-mod-callcenter (= \${binary:Version}),
@@ -537,10 +551,15 @@ Recommends:
  freeswitch-mod-oreka (= \${binary:Version}),
  freeswitch-mod-pgsql (= \${binary:Version}),
  freeswitch-mod-redis (= \${binary:Version}),
+ freeswitch-mod-rss (= \${binary:Version}),
  freeswitch-mod-sms (= \${binary:Version}),
  freeswitch-mod-snapshot (= \${binary:Version}),
+ freeswitch-mod-snom (= \${binary:Version}),
+ freeswitch-mod-sonar (= \${binary:Version}),
+ freeswitch-mod-soundtouch (= \${binary:Version}),
  freeswitch-mod-spandsp (= \${binary:Version}),
  freeswitch-mod-spy (= \${binary:Version}),
+ freeswitch-mod-stress (= \${binary:Version}),
  freeswitch-mod-valet-parking (= \${binary:Version}),
  freeswitch-mod-vmd (= \${binary:Version}),
  freeswitch-mod-voicemail (= \${binary:Version}),
@@ -589,6 +608,7 @@ Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-meta-mod-say (= \${binary:Version}),
  freeswitch-music,
  freeswitch-sounds,
+ freeswitch-mod-abstraction (= \${binary:Version}),
  freeswitch-mod-avmd (= \${binary:Version}),
  freeswitch-mod-av (= \${binary:Version}),
  freeswitch-mod-blacklist (= \${binary:Version}),
@@ -620,12 +640,17 @@ Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-mod-pgsql (= \${binary:Version}),
  freeswitch-mod-png (= \${binary:Version}),
  freeswitch-mod-redis (= \${binary:Version}),
+ freeswitch-mod-rss (= \${binary:Version}),
  freeswitch-mod-signalwire (= \${binary:Version}),
  freeswitch-mod-shout (= \${binary:Version}),
  freeswitch-mod-sms (= \${binary:Version}),
  freeswitch-mod-snapshot (= \${binary:Version}),
+ freeswitch-mod-snom (= \${binary:Version}),
+ freeswitch-mod-sonar (= \${binary:Version}),
+ freeswitch-mod-soundtouch (= \${binary:Version}),
  freeswitch-mod-spandsp (= \${binary:Version}),
  freeswitch-mod-spy (= \${binary:Version}),
+ freeswitch-mod-stress (= \${binary:Version}),
  freeswitch-mod-translate (= \${binary:Version}),
  freeswitch-mod-valet-parking (= \${binary:Version}),
  freeswitch-mod-video-filter (= \${binary:Version}),
@@ -638,6 +663,7 @@ Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-mod-dialplan-directory (= \${binary:Version}),
  freeswitch-mod-dialplan-xml (= \${binary:Version}),
  freeswitch-mod-loopback (= \${binary:Version}),
+ freeswitch-mod-portaudio (= \${binary:Version}),
  freeswitch-mod-rtc (= \${binary:Version}),
  freeswitch-mod-rtmp (= \${binary:Version}),
  freeswitch-mod-skinny (= \${binary:Version}),
@@ -653,6 +679,7 @@ Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-mod-snmp (= \${binary:Version}),
  freeswitch-mod-local-stream (= \${binary:Version}),
  freeswitch-mod-native-file (= \${binary:Version}),
+ freeswitch-mod-portaudio-stream (= \${binary:Version}),
  freeswitch-mod-shell-stream (= \${binary:Version}),
  freeswitch-mod-sndfile (= \${binary:Version}),
  freeswitch-mod-tone-stream (= \${binary:Version}),
@@ -688,9 +715,12 @@ Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-mod-b64 (= \${binary:Version}),
  freeswitch-mod-bv (= \${binary:Version}),
  freeswitch-mod-codec2 (= \${binary:Version}),
+ freeswitch-mod-dahdi-codec (= \${binary:Version}),
  freeswitch-mod-g723-1 (= \${binary:Version}),
  freeswitch-mod-g729 (= \${binary:Version}),
  freeswitch-mod-h26x (= \${binary:Version}),
+ freeswitch-mod-isac (= \${binary:Version}),
+ freeswitch-mod-mp4v (= \${binary:Version}),
  freeswitch-mod-opus (= \${binary:Version}),
  freeswitch-mod-silk (= \${binary:Version}),
  freeswitch-mod-spandsp (= \${binary:Version}),
@@ -712,9 +742,12 @@ Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-mod-b64-dbg (= \${binary:Version}),
  freeswitch-mod-bv-dbg (= \${binary:Version}),
  freeswitch-mod-codec2-dbg (= \${binary:Version}),
+ freeswitch-mod-dahdi-codec-dbg (= \${binary:Version}),
  freeswitch-mod-g723-1-dbg (= \${binary:Version}),
  freeswitch-mod-g729-dbg (= \${binary:Version}),
  freeswitch-mod-h26x-dbg (= \${binary:Version}),
+ freeswitch-mod-isac-dbg (= \${binary:Version}),
+ freeswitch-mod-mp4v-dbg (= \${binary:Version}),
  freeswitch-mod-opus-dbg (= \${binary:Version}),
  freeswitch-mod-silk-dbg (= \${binary:Version}),
  freeswitch-mod-spandsp-dbg (= \${binary:Version}),
@@ -813,6 +846,7 @@ Architecture: amd64 armhf arm64
 Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-meta-codecs-dbg (= \${binary:Version}),
  freeswitch-meta-mod-say (= \${binary:Version}),
+ freeswitch-mod-abstraction-dbg (= \${binary:Version}),
  freeswitch-mod-avmd-dbg (= \${binary:Version}),
  freeswitch-mod-av-dbg (= \${binary:Version}),
  freeswitch-mod-blacklist-dbg (= \${binary:Version}),
@@ -844,10 +878,15 @@ Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-mod-pgsql-dbg (= \${binary:Version}),
  freeswitch-mod-png-dbg (= \${binary:Version}),
  freeswitch-mod-redis-dbg (= \${binary:Version}),
+ freeswitch-mod-rss-dbg (= \${binary:Version}),
  freeswitch-mod-sms-dbg (= \${binary:Version}),
  freeswitch-mod-snapshot-dbg (= \${binary:Version}),
+ freeswitch-mod-snom-dbg (= \${binary:Version}),
+ freeswitch-mod-sonar-dbg (= \${binary:Version}),
+ freeswitch-mod-soundtouch-dbg (= \${binary:Version}),
  freeswitch-mod-spandsp-dbg (= \${binary:Version}),
  freeswitch-mod-spy-dbg (= \${binary:Version}),
+ freeswitch-mod-stress-dbg (= \${binary:Version}),
  freeswitch-mod-translate-dbg (= \${binary:Version}),
  freeswitch-mod-valet-parking-dbg (= \${binary:Version}),
  freeswitch-mod-video-filter-dbg (= \${binary:Version}),
@@ -860,6 +899,7 @@ Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-mod-dialplan-directory-dbg (= \${binary:Version}),
  freeswitch-mod-dialplan-xml-dbg (= \${binary:Version}),
  freeswitch-mod-loopback-dbg (= \${binary:Version}),
+ freeswitch-mod-portaudio-dbg (= \${binary:Version}),
  freeswitch-mod-rtc-dbg (= \${binary:Version}),
  freeswitch-mod-rtmp-dbg (= \${binary:Version}),
  freeswitch-mod-skinny-dbg (= \${binary:Version}),
@@ -875,6 +915,7 @@ Depends: \${misc:Depends}, freeswitch (= \${binary:Version}),
  freeswitch-mod-snmp-dbg (= \${binary:Version}),
  freeswitch-mod-local-stream-dbg (= \${binary:Version}),
  freeswitch-mod-native-file-dbg (= \${binary:Version}),
+ freeswitch-mod-portaudio-stream-dbg (= \${binary:Version}),
  freeswitch-mod-shell-stream-dbg (= \${binary:Version}),
  freeswitch-mod-sndfile-dbg (= \${binary:Version}),
  freeswitch-mod-tone-stream-dbg (= \${binary:Version}),

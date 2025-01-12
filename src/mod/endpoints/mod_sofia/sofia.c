@@ -4176,6 +4176,7 @@ static void parse_gateways(sofia_profile_t *profile, switch_xml_t gateways_tag, 
 
 			if (extension_in_contact) {
 				if (rfc_5626) {
+//					format = strchr(sipip, ':') ? "<sip:%s@[%s]:%d>%s" : "<sip:%s@%s:%d%s>%s";
 					format = strchr(sipip, ':') ? "<sip:%s@[%s]:%d%s>%s" : "<sip:%s@%s:%d%s>%s";
 					gateway->register_contact = switch_core_sprintf(gateway->pool, format, extension,
 							sipip,
@@ -8498,6 +8499,13 @@ static void sofia_handle_sip_i_state(switch_core_session_t *session, int status,
 			}
 		break;
 	case nua_callstate_ready:
+
+
+		/* sdp changed since 18X w sdp but is empty r_sdp*/
+		if (!r_sdp && sofia_test_flag(tech_pvt, TFLAG_NEW_SDP)) {
+			r_sdp = (const char *) switch_channel_get_variable(channel, SWITCH_R_SDP_VARIABLE);
+		}
+
 		if (!switch_channel_test_flag(channel, CF_PROXY_MODE) && !switch_channel_test_flag(channel, CF_PROXY_MEDIA) &&
 			r_sdp && (!is_dup_sdp || sofia_test_flag(tech_pvt, TFLAG_NEW_SDP)) && switch_core_media_ready(tech_pvt->session, SWITCH_MEDIA_TYPE_AUDIO) && !sofia_test_flag(tech_pvt, TFLAG_NOSDP_REINVITE)) {
 			/* sdp changed since 18X w sdp, we're supposed to ignore it but we, of course, were pressured into supporting it */
@@ -10476,7 +10484,7 @@ void sofia_handle_sip_i_invite(switch_core_session_t *session, nua_t *nua, sofia
 		(!is_tcp && !is_tls && (zstr(network_ip) || !switch_check_network_list_ip(network_ip, profile->local_network)) &&
 		 profile->server_rport_level >= 2 && sip->sip_user_agent &&
 		 sip->sip_user_agent->g_string &&
-		 (!strncasecmp(sip->sip_user_agent->g_string, "Polycom", 7) || !strncasecmp(sip->sip_user_agent->g_string, "KIRK Wireless Server", 20)))
+		 (!strncasecmp(sip->sip_user_agent->g_string, "Poly", 4) || !strncasecmp(sip->sip_user_agent->g_string, "KIRK Wireless Server", 20)))
 		) {
 		if (sip->sip_via) {
 			const char *port = sip->sip_via->v_port;
