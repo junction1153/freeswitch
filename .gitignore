@@ -78,7 +78,7 @@ TAGS
 /libtool
 /Makefile
 /Makefile.in
-/modules.conf
+#/modules.conf
 /NEWS
 /noreg
 /Path
