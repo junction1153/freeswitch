@@ -43,7 +43,7 @@
 aclocal.m4
 autom4te.cache
 config.cache
-configure.lineno
+#configure.lineno
 config.log
 config.status
 test-driver
